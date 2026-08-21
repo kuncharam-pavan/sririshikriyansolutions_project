@@ -3,13 +3,15 @@
  */
 export const filterProperties = (properties = [], { searchQuery, type, city, priceRange, bedrooms }) => {
   return properties.filter((property) => {
-    // 1. Search Query (name, city, location)
+    // 1. Multi-field Search Query (name, city, location, type, address)
     if (searchQuery && searchQuery.trim() !== '') {
       const q = searchQuery.toLowerCase().trim();
       const nameMatch = property.name?.toLowerCase().includes(q);
       const cityMatch = property.city?.toLowerCase().includes(q);
       const locMatch = property.location?.toLowerCase().includes(q);
-      if (!nameMatch && !cityMatch && !locMatch) return false;
+      const typeMatch = property.type?.toLowerCase().includes(q);
+      const addressMatch = property.address?.toLowerCase().includes(q);
+      if (!nameMatch && !cityMatch && !locMatch && !typeMatch && !addressMatch) return false;
     }
 
     // 2. Property Type

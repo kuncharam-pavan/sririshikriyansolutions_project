@@ -4,11 +4,15 @@ import { PropertyProvider } from './context/PropertyContext';
 import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import ToastContainer from './components/Toast/ToastContainer';
+import ListPropertyModal from './components/ListPropertyModal/ListPropertyModal';
 import Home from './pages/Home/Home';
 
 // Route-level Lazy Loading for Performance Optimization
+const Properties = lazy(() => import('./pages/Properties/Properties'));
 const PropertyDetails = lazy(() => import('./pages/PropertyDetails/PropertyDetails'));
 const Favorites = lazy(() => import('./pages/Favorites/Favorites'));
+const About = lazy(() => import('./pages/About/About'));
+const Contact = lazy(() => import('./pages/Contact/Contact'));
 const NotFound = lazy(() => import('./pages/NotFound/NotFound'));
 
 // Page Fallback Loader
@@ -32,13 +36,17 @@ export function App() {
             <Suspense fallback={<PageLoader />}>
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/properties" element={<Properties />} />
                 <Route path="/properties/:id" element={<PropertyDetails />} />
                 <Route path="/favorites" element={<Favorites />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>
           </main>
 
+          <ListPropertyModal />
           <ToastContainer />
           <Footer />
         </div>

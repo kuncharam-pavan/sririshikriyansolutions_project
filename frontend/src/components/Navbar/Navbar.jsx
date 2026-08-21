@@ -1,13 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Building2, Heart, Moon, Sun, Menu, X, Home as HomeIcon, Info, Phone } from 'lucide-react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import {
+  Building2,
+  Heart,
+  Moon,
+  Sun,
+  Menu,
+  X,
+  Home as HomeIcon,
+  Building,
+  Info,
+  Phone,
+  PlusCircle,
+} from 'lucide-react';
 import useProperties from '../../hooks/useProperties';
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-  const { favorites, theme, toggleTheme } = useProperties();
+  const { favorites, theme, toggleTheme, openListModal } = useProperties();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,35 +35,33 @@ export const Navbar = () => {
   }, [location]);
 
   const navLinks = [
-    { name: 'Home', path: '/', icon: HomeIcon },
-    { name: 'Properties', path: '/', hash: '#properties', icon: Building2 },
+    { name: 'Home', path: '/', icon: HomeIcon, end: true },
+    { name: 'Properties', path: '/properties', icon: Building },
     { name: 'Favorites', path: '/favorites', icon: Heart, badge: favorites.length },
-    { name: 'About', path: '/#about', icon: Info },
-    { name: 'Contact', path: '/#contact', icon: Phone },
+    { name: 'About', path: '/about', icon: Info },
+    { name: 'Contact', path: '/contact', icon: Phone },
   ];
-
-  const isActive = (path) => location.pathname === path;
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         scrolled
-          ? 'bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-md py-3 border-b border-slate-200/50 dark:border-slate-800/50'
-          : 'bg-white/90 dark:bg-slate-900/90 py-4 border-b border-slate-200/30 dark:border-slate-800/30'
+          ? 'bg-slate-900/95 text-white backdrop-blur-md shadow-xl py-3 border-b border-slate-800/80'
+          : 'bg-slate-900/90 text-white backdrop-blur-sm py-4 border-b border-slate-800/60'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Brand Logo */}
-          <Link to="/" className="flex items-center gap-2 group">
-            <div className="p-2.5 bg-gradient-to-tr from-indigo-600 to-violet-600 text-white rounded-xl shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform duration-200">
+          <Link to="/" className="flex items-center gap-2.5 group">
+            <div className="p-2.5 bg-gradient-to-tr from-indigo-500 to-violet-600 text-white rounded-xl shadow-lg shadow-indigo-500/25 group-hover:scale-105 transition-transform duration-200">
               <Building2 className="w-6 h-6" />
             </div>
             <div className="flex flex-col">
-              <span className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-slate-900 via-indigo-950 to-indigo-700 dark:from-white dark:via-slate-200 dark:to-indigo-300 bg-clip-text text-transparent">
+              <span className="text-2xl font-black tracking-tight text-white group-hover:text-indigo-400 transition-colors">
                 HAVEN
               </span>
-              <span className="text-[10px] font-semibold text-indigo-600 dark:text-indigo-400 tracking-widest uppercase -mt-1">
+              <span className="text-[10px] font-bold text-indigo-400 tracking-widest uppercase -mt-1">
                 Real Estate
               </span>
             </div>
@@ -60,37 +70,49 @@ export const Navbar = () => {
           {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
-              <Link
+              <NavLink
                 key={link.name}
                 to={link.path}
-                className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 ${
-                  isActive(link.path)
-                    ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/40 font-semibold'
-                    : 'text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-100 dark:hover:bg-slate-800/50'
-                }`}
+                end={link.end}
+                className={({ isActive }) =>
+                  `relative px-3.5 py-2 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center gap-2 ${
+                    isActive
+                      ? 'text-white bg-indigo-600/90 shadow-md shadow-indigo-500/20'
+                      : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+                  }`
+                }
               >
                 <link.icon className="w-4 h-4" />
                 <span>{link.name}</span>
                 {link.badge !== undefined && link.badge > 0 && (
-                  <span className="ml-1.5 px-2 py-0.5 text-xs font-bold text-white bg-gradient-to-r from-rose-500 to-pink-500 rounded-full shadow-sm">
+                  <span className="ml-1 px-2 py-0.5 text-xs font-bold text-white bg-gradient-to-r from-rose-500 to-pink-500 rounded-full shadow-sm">
                     {link.badge}
                   </span>
                 )}
-              </Link>
+              </NavLink>
             ))}
           </nav>
 
-          {/* Right Action Icons (Theme Toggle & Mobile Menu Trigger) */}
+          {/* Right Actions: List Property Button, Theme Toggle & Mobile Menu Trigger */}
           <div className="flex items-center gap-3">
+            {/* List Your Property Action Button */}
+            <button
+              onClick={openListModal}
+              className="hidden sm:inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-xs sm:text-sm font-bold rounded-xl shadow-lg shadow-indigo-500/25 transition-all transform hover:scale-[1.02] cursor-pointer"
+            >
+              <PlusCircle className="w-4 h-4" />
+              <span>List Your Property</span>
+            </button>
+
             {/* Theme Toggle Button */}
             <button
               onClick={toggleTheme}
-              className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+              className="p-2.5 rounded-xl bg-slate-800 text-slate-200 hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/50 cursor-pointer"
               aria-label="Toggle Dark Mode"
               title={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Mode`}
             >
               {theme === 'light' ? (
-                <Moon className="w-5 h-5 text-slate-700" />
+                <Moon className="w-5 h-5 text-slate-300" />
               ) : (
                 <Sun className="w-5 h-5 text-amber-400" />
               )}
@@ -99,7 +121,7 @@ export const Navbar = () => {
             {/* Mobile Hamburger Toggle */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors focus:outline-none"
+              className="md:hidden p-2.5 rounded-xl bg-slate-800 text-slate-200 hover:bg-slate-700 transition-colors focus:outline-none cursor-pointer"
               aria-label="Toggle Mobile Navigation Menu"
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -109,20 +131,24 @@ export const Navbar = () => {
 
         {/* Mobile Navigation Drawer */}
         {isOpen && (
-          <div className="md:hidden mt-3 pt-3 pb-4 border-t border-slate-200 dark:border-slate-800 animate-in slide-in-from-top duration-200">
+          <div className="md:hidden mt-3 pt-3 pb-4 border-t border-slate-800 animate-in slide-in-from-top duration-200 space-y-2">
             <nav className="flex flex-col space-y-1">
               {navLinks.map((link) => (
-                <Link
+                <NavLink
                   key={link.name}
                   to={link.path}
-                  className={`flex items-center justify-between px-4 py-3 rounded-xl text-base font-medium transition-colors ${
-                    isActive(link.path)
-                      ? 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/50 font-bold'
-                      : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
-                  }`}
+                  end={link.end}
+                  onClick={() => setIsOpen(false)}
+                  className={({ isActive }) =>
+                    `flex items-center justify-between px-4 py-3 rounded-xl text-sm font-semibold transition-colors ${
+                      isActive
+                        ? 'text-white bg-indigo-600 font-bold shadow-md'
+                        : 'text-slate-200 hover:bg-slate-800'
+                    }`
+                  }
                 >
                   <div className="flex items-center gap-3">
-                    <link.icon className="w-5 h-5 text-indigo-500" />
+                    <link.icon className="w-4 h-4 text-indigo-400" />
                     <span>{link.name}</span>
                   </div>
                   {link.badge !== undefined && link.badge > 0 && (
@@ -130,9 +156,40 @@ export const Navbar = () => {
                       {link.badge}
                     </span>
                   )}
-                </Link>
+                </NavLink>
               ))}
             </nav>
+
+            <div className="pt-2 border-t border-slate-800 flex items-center justify-between px-2">
+              <span className="text-xs font-semibold text-slate-400">Appearance</span>
+              <button
+                onClick={toggleTheme}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-800 text-slate-200 hover:bg-slate-700 transition-colors text-xs font-semibold"
+              >
+                {theme === 'light' ? (
+                  <>
+                    <Moon className="w-4 h-4 text-slate-300" />
+                    <span>Dark Mode</span>
+                  </>
+                ) : (
+                  <>
+                    <Sun className="w-4 h-4 text-amber-400" />
+                    <span>Light Mode</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            <button
+              onClick={() => {
+                setIsOpen(false);
+                openListModal();
+              }}
+              className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-gradient-to-r from-indigo-600 to-violet-600 text-white text-sm font-bold rounded-xl shadow-lg shadow-indigo-500/25 mt-3 cursor-pointer"
+            >
+              <PlusCircle className="w-4 h-4" />
+              <span>List Your Property</span>
+            </button>
           </div>
         )}
       </div>

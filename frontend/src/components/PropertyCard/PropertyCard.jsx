@@ -37,7 +37,7 @@ export const PropertyCard = memo(({ property }) => {
 
   return (
     <div className="group relative bg-white dark:bg-slate-900 rounded-3xl overflow-hidden border border-slate-200/80 dark:border-slate-800/80 shadow-md hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300 flex flex-col h-full hover:-translate-y-1">
-      {/* Property Image Container */}
+      {/* Property Image Container - Full Color, Sharp, object-cover */}
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100 dark:bg-slate-800">
         <img
           src={mainImage}
@@ -46,16 +46,13 @@ export const PropertyCard = memo(({ property }) => {
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
         />
 
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-40 group-hover:opacity-60 transition-opacity" />
-
         {/* Top Badges */}
-        <div className="absolute top-3 left-3 flex items-center gap-2">
-          <span className="px-3 py-1 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md text-slate-900 dark:text-white text-xs font-bold rounded-full shadow-sm">
+        <div className="absolute top-3 left-3 flex items-center gap-2 z-10">
+          <span className="px-3 py-1 bg-slate-900/85 backdrop-blur-md text-white text-xs font-bold rounded-full shadow-md border border-white/10">
             {type}
           </span>
           {featured && (
-            <span className="px-2.5 py-1 bg-amber-500 text-slate-950 text-xs font-extrabold rounded-full shadow-sm flex items-center gap-1">
+            <span className="px-2.5 py-1 bg-amber-500 text-slate-950 text-xs font-extrabold rounded-full shadow-md flex items-center gap-1">
               <Sparkles className="w-3 h-3" />
               <span>Featured</span>
             </span>
@@ -65,19 +62,19 @@ export const PropertyCard = memo(({ property }) => {
         {/* Favorite Heart Button */}
         <button
           onClick={handleFavoriteClick}
-          className={`absolute top-3 right-3 p-2.5 rounded-full backdrop-blur-md transition-all duration-200 ${
+          className={`absolute top-3 right-3 z-10 p-2.5 rounded-full backdrop-blur-md transition-all duration-200 cursor-pointer ${
             fav
               ? 'bg-rose-500 text-white shadow-lg shadow-rose-500/40 scale-110'
-              : 'bg-white/80 dark:bg-slate-900/80 text-slate-700 dark:text-slate-200 hover:text-rose-500 hover:bg-white'
+              : 'bg-slate-900/70 text-white hover:text-rose-400 hover:bg-slate-900/90'
           }`}
           aria-label={fav ? 'Remove from favorites' : 'Add to favorites'}
         >
           <Heart className={`w-4 h-4 ${fav ? 'fill-current' : ''}`} />
         </button>
 
-        {/* Price Tag Overlay */}
-        <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between">
-          <div className="px-3.5 py-1.5 bg-slate-950/80 backdrop-blur-md text-white font-extrabold text-lg sm:text-xl rounded-xl border border-white/10 shadow-lg">
+        {/* Price Tag Overlay at bottom corner */}
+        <div className="absolute bottom-3 left-3 z-10">
+          <div className="px-3 py-1 bg-slate-950/85 backdrop-blur-md text-white font-extrabold text-base sm:text-lg rounded-xl border border-white/15 shadow-lg">
             {formatIndianPrice(price)}
           </div>
         </div>

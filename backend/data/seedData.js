@@ -336,5 +336,89 @@ export const initialProperties = [
     amenities: ["Elevator", "Car Parking", "Metro Proximity", "Power Backup"],
     featured: false,
     createdAt: new Date("2026-01-15T09:30:00Z")
+  },
+  {
+    _id: "prop-117",
+    name: "Hauz Khas Modern Designer Villa",
+    type: "Villa",
+    price: 45000000, // ₹4.5 Crore
+    city: "Delhi",
+    location: "Hauz Khas",
+    address: "Deer Park Enclave, Hauz Khas, New Delhi, Delhi 110016",
+    bedrooms: 4,
+    bathrooms: 4,
+    area: 4500,
+    description: "Sophisticated contemporary 4 BHK villa adjacent to heritage deer park greenery. Features open-plan living, Italian marble, rooftop deck, and smart temperature control.",
+    images: [
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=80"
+    ],
+    amenities: ["Park View", "Rooftop Terrace", "Smart Home Automation", "Private Security", "Modular Kitchen"],
+    featured: true,
+    createdAt: new Date("2026-02-17T11:20:00Z")
+  },
+  {
+    _id: "prop-118",
+    name: "Kalyani Nagar Executive 3BHK",
+    type: "Apartment",
+    price: 13500000, // ₹1.35 Crore
+    city: "Pune",
+    location: "Kalyani Nagar",
+    address: "East Avenue, Kalyani Nagar, Pune, Maharashtra 411006",
+    bedrooms: 3,
+    bathrooms: 3,
+    area: 1850,
+    description: "Upscale 3 BHK residence in prime Pune location. Features large sundrenched balconies, designer false ceiling, granite countertops, and premium clubhouse facilities.",
+    images: [
+      "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1200&q=80"
+    ],
+    amenities: ["Clubhouse", "Swimming Pool", "Kids Play Area", "Covered Car Parking", "24/7 CCTV"],
+    featured: false,
+    createdAt: new Date("2026-02-09T08:45:00Z")
+  },
+  {
+    _id: "prop-119",
+    name: "Anna Nagar Independent Family House",
+    type: "Independent House",
+    price: 14500000, // ₹1.45 Crore
+    city: "Chennai",
+    location: "Anna Nagar",
+    address: "2nd Avenue, Anna Nagar West, Chennai, Tamil Nadu 600040",
+    bedrooms: 4,
+    bathrooms: 3,
+    area: 2800,
+    description: "Spacious independent duplex house with private front garden, portico parking for 2 cars, pooja room, and expansive private terrace in peaceful neighborhood.",
+    images: [
+      "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1200&q=80"
+    ],
+    amenities: ["Private Garden", "Dual Car Porch", "Borewell Water", "Vastu Compliant", "Terrace Access"],
+    featured: false,
+    createdAt: new Date("2026-01-25T14:10:00Z")
+  },
+  {
+    _id: "prop-120",
+    name: "Worli Bay Signature Sky Suite",
+    type: "Apartment",
+    price: 49000000, // ₹4.9 Crore
+    city: "Mumbai",
+    location: "Worli",
+    address: "Dr Annie Besant Rd, Worli Sea Face, Mumbai, Maharashtra 400018",
+    bedrooms: 4,
+    bathrooms: 4,
+    area: 3200,
+    description: "Ultra-luxury seafront residence overlooking the Bandra-Worli Sea Link. Custom Italian finishes, heated indoor pool, concierge, and private wine cellar.",
+    images: [
+      "https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1600607687644-c7171b42498f?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1200&q=80"
+    ],
+    amenities: ["Sea View", "Private Wine Cellar", "Infinity Pool", "Sky Gym", "Valet Parking", "Concierge 24/7"],
+    featured: true,
+    createdAt: new Date("2026-02-19T16:00:00Z")
   }
 ];

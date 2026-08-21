@@ -9,6 +9,12 @@ export const PropertyProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // List Your Property Modal State
+  const [isListModalOpen, setIsListModalOpen] = useState(false);
+
+  const openListModal = useCallback(() => setIsListModalOpen(true), []);
+  const closeListModal = useCallback(() => setIsListModalOpen(false), []);
+
   // Search, Filters & Sorting state
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState({
@@ -39,15 +45,24 @@ export const PropertyProvider = ({ children }) => {
     }
   });
 
-  // Dark Mode Theme state (synced with localStorage)
-  const [theme, setTheme] = useState(() => {
+  // Helper to determine initial theme (localStorage -> system preference -> fallback)
+  const getInitialTheme = () => {
     try {
       const saved = localStorage.getItem('haven_theme');
-      return saved ? saved : 'light';
-    } catch {
-      return 'light';
+      if (saved === 'dark' || saved === 'light') {
+        return saved;
+      }
+    } catch (e) {
+      console.error('Failed to read theme from localStorage', e);
     }
-  });
+    if (typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return 'dark';
+    }
+    return 'light';
+  };
+
+  // Dark Mode Theme state (synced with localStorage and system preference)
+  const [theme, setTheme] = useState(getInitialTheme);
 
   // Toast Notifications state
   const [toasts, setToasts] = useState([]);
@@ -57,7 +72,7 @@ export const PropertyProvider = ({ children }) => {
     setToasts((prev) => [...prev, { id, message, type }]);
     setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, 3500);
+    }, 4000);
   }, []);
 
   // Fetch properties from backend / fallback
@@ -99,14 +114,19 @@ export const PropertyProvider = ({ children }) => {
     }
   }, [recentlyViewed]);
 
-  // Apply Theme class to <html> tag
+  // Apply Theme class and data attribute to <html> and <body> tags
   useEffect(() => {
     try {
       localStorage.setItem('haven_theme', theme);
+      const root = document.documentElement;
       if (theme === 'dark') {
-        document.documentElement.classList.add('dark');
+        root.classList.add('dark');
+        root.setAttribute('data-theme', 'dark');
+        document.body.classList.add('dark');
       } else {
-        document.documentElement.classList.remove('dark');
+        root.classList.remove('dark');
+        root.setAttribute('data-theme', 'light');
+        document.body.classList.remove('dark');
       }
     } catch (e) {
       console.error('Failed to apply theme', e);
@@ -127,10 +147,10 @@ export const PropertyProvider = ({ children }) => {
     setFavorites((prev) => {
       const exists = prev.includes(propertyId);
       if (exists) {
-        showToast(`Removed "${propertyName}" from Favorites`, 'info');
+        showToast(`Removed "${propertyName}" from favorites`, 'info');
         return prev.filter((id) => id !== propertyId);
       } else {
-        showToast(`Added "${propertyName}" to Favorites`, 'success');
+        showToast(`Added "${propertyName}" to favorites`, 'success');
         return [...prev, propertyId];
       }
     });
@@ -164,6 +184,22 @@ export const PropertyProvider = ({ children }) => {
     });
     setSortBy('default');
     showToast('Filters cleared', 'info');
+  }, [showToast]);
+
+  // Add a new property
+  const addNewProperty = useCallback(async (propertyData) => {
+    try {
+      const res = await propertyService.createProperty(propertyData);
+      if (res.data) {
+        setProperties((prev) => [res.data, ...prev]);
+        showToast('Property listed successfully!', 'success');
+        return { success: true, data: res.data };
+      }
+      throw new Error('Failed to create property');
+    } catch (err) {
+      showToast(err.message || 'Failed to list property', 'error');
+      return { success: false, error: err.message };
+    }
   }, [showToast]);
 
   // Memoized Filtered & Sorted Properties Array using useMemo
@@ -208,7 +244,13 @@ export const PropertyProvider = ({ children }) => {
     toggleTheme,
     toasts,
     showToast,
+    isListModalOpen,
+    openListModal,
+    closeListModal,
+    addNewProperty,
   };
 
   return <PropertyContext.Provider value={value}>{children}</PropertyContext.Provider>;
 };
+
+export default PropertyProvider;

@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Building2, Mail, Phone, MapPin, Heart, ArrowUp } from 'lucide-react';
+import { User, Phone, Mail, ArrowUp } from 'lucide-react';
 
 export const Footer = () => {
   const scrollToTop = () => {
@@ -8,102 +7,75 @@ export const Footer = () => {
   };
 
   return (
-    <footer className="bg-slate-900 text-slate-300 border-t border-slate-800 pt-16 pb-12 mt-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-          {/* Column 1: Brand Info */}
-          <div className="space-y-4">
-            <Link to="/" className="flex items-center gap-2">
-              <div className="p-2.5 bg-indigo-600 text-white rounded-xl shadow-lg">
-                <Building2 className="w-6 h-6" />
-              </div>
-              <span className="text-2xl font-extrabold text-white tracking-tight">HAVEN</span>
-            </Link>
-            <p className="text-sm text-slate-400 font-light leading-relaxed">
-              India's premier real estate portal for verified residential apartments, modern villas, commercial hubs, and standalone independent homes.
-            </p>
-          </div>
+    <footer className="relative bg-slate-900 text-slate-300 border-t border-slate-800/80 pt-12 pb-8 mt-20 overflow-hidden">
+      {/* Subtle Ambient Glow */}
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-indigo-900/15 via-transparent to-transparent" />
 
-          {/* Column 2: Quick Links */}
-          <div>
-            <h4 className="text-white font-bold text-base mb-4 tracking-wide uppercase text-xs text-indigo-400">
-              Quick Navigation
-            </h4>
-            <ul className="space-y-2.5 text-sm font-medium">
-              <li>
-                <Link to="/" className="hover:text-white transition-colors">
-                  Home Marketplace
-                </Link>
-              </li>
-              <li>
-                <Link to="/#properties" className="hover:text-white transition-colors">
-                  Browse Properties
-                </Link>
-              </li>
-              <li>
-                <Link to="/favorites" className="hover:text-white transition-colors">
-                  Saved Favorites
-                </Link>
-              </li>
-              <li>
-                <a href="#about" className="hover:text-white transition-colors">
-                  About Haven
-                </a>
-              </li>
-              <li>
-                <a href="#contact" className="hover:text-white transition-colors">
-                  Contact Support
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 3: Top Metro Cities */}
-          <div>
-            <h4 className="text-white font-bold text-base mb-4 tracking-wide uppercase text-xs text-indigo-400">
-              Popular Locations
-            </h4>
-            <ul className="space-y-2.5 text-sm text-slate-400">
-              <li>Properties in Hyderabad (Gachibowli, HITEC City)</li>
-              <li>Properties in Bangalore (Indiranagar, Whitefield)</li>
-              <li>Properties in Mumbai (Bandra, Powai)</li>
-              <li>Properties in Chennai (Adyar, ECR)</li>
-              <li>Properties in Pune & Delhi NCR</li>
-            </ul>
-          </div>
-
-          {/* Column 4: Contact Us */}
-          <div id="contact">
-            <h4 className="text-white font-bold text-base mb-4 tracking-wide uppercase text-xs text-indigo-400">
-              Get In Touch
-            </h4>
-            <div className="space-y-3 text-sm text-slate-400">
-              <div className="flex items-center gap-3">
-                <MapPin className="w-4 h-4 text-indigo-400 shrink-0" />
-                <span>Financial District, Gachibowli, Hyderabad, TS 500032</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Phone className="w-4 h-4 text-indigo-400 shrink-0" />
-                <span>+91 (040) 8800-4400</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Mail className="w-4 h-4 text-indigo-400 shrink-0" />
-                <span>contact@havenrealestate.com</span>
-              </div>
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Main Content Grid: Horizontal on desktop, Stacked on mobile */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Section 1: Name / Profile */}
+          <div className="flex items-center gap-4 p-5 rounded-2xl bg-slate-800/40 border border-slate-800 hover:border-indigo-500/40 transition-all group">
+            <div className="p-3.5 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 group-hover:bg-indigo-500/20 group-hover:text-indigo-300 transition-colors shadow-inner shrink-0">
+              <User className="w-6 h-6" />
+            </div>
+            <div>
+              <span className="block text-xs font-semibold uppercase tracking-wider text-indigo-400">
+                Name
+              </span>
+              <h3 className="text-lg font-bold text-white tracking-tight">
+                Kuncharam Pavan
+              </h3>
             </div>
           </div>
+
+          {/* Section 2: Phone */}
+          <a
+            href="tel:9959650670"
+            className="flex items-center gap-4 p-5 rounded-2xl bg-slate-800/40 border border-slate-800 hover:border-violet-500/40 hover:bg-slate-800/60 transition-all group cursor-pointer"
+          >
+            <div className="p-3.5 rounded-xl bg-violet-500/10 text-violet-400 border border-violet-500/20 group-hover:bg-violet-500/20 group-hover:text-violet-300 transition-colors shadow-inner shrink-0">
+              <Phone className="w-6 h-6" />
+            </div>
+            <div>
+              <span className="block text-xs font-semibold uppercase tracking-wider text-violet-400">
+                Phone
+              </span>
+              <span className="text-lg font-bold text-white group-hover:text-violet-300 transition-colors">
+                9959650670
+              </span>
+            </div>
+          </a>
+
+          {/* Section 3: Email */}
+          <a
+            href="mailto:kuncharampavan2580@gmail.com"
+            className="flex items-center gap-4 p-5 rounded-2xl bg-slate-800/40 border border-slate-800 hover:border-blue-500/40 hover:bg-slate-800/60 transition-all group cursor-pointer"
+          >
+            <div className="p-3.5 rounded-xl bg-blue-500/10 text-blue-400 border border-blue-500/20 group-hover:bg-blue-500/20 group-hover:text-blue-300 transition-colors shadow-inner shrink-0">
+              <Mail className="w-6 h-6" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <span className="block text-xs font-semibold uppercase tracking-wider text-blue-400">
+                Email
+              </span>
+              <span className="text-sm sm:text-base font-bold text-white group-hover:text-blue-300 transition-colors truncate block">
+                kuncharampavan2580@gmail.com
+              </span>
+            </div>
+          </a>
         </div>
 
-        {/* Bottom Copyright Strip */}
-        <div className="mt-12 pt-8 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-          <p>© {new Date().getFullYear()} HAVEN Real Estate Marketplace. All rights reserved.</p>
-          
+        {/* Bottom Copyright and Back to Top Bar */}
+        <div className="mt-10 pt-6 border-t border-slate-800/70 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+          <p>© {new Date().getFullYear()} Kuncharam Pavan. All rights reserved.</p>
+
           <button
             onClick={scrollToTop}
-            className="flex items-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl transition-colors"
+            className="flex items-center gap-1.5 px-4 py-2 bg-slate-800/80 hover:bg-slate-700/80 text-slate-300 hover:text-white rounded-xl border border-slate-700/50 transition-all cursor-pointer"
           >
             <span>Back to Top</span>
-            <ArrowUp className="w-3.5 h-3.5" />
+            <ArrowUp className="w-3.5 h-3.5 text-indigo-400" />
           </button>
         </div>
       </div>

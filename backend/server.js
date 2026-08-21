@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import propertyRoutes from './routes/propertyRoutes.js';
+import { seedProperties } from './controllers/propertyController.js';
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
 
 dotenv.config();
@@ -12,26 +13,8 @@ const app = express();
 // Connect to MongoDB
 connectDB();
 
-// CORS Configuration for Render/Vercel production environment
-const allowedOrigins = [
-  'http://localhost:3000',
-  'http://localhost:5173',
-  process.env.CLIENT_URL
-].filter(Boolean);
-
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin) || allowedOrigins.includes('*')) {
-        callback(null, true);
-      } else {
-        callback(null, true); // Allow cross-origin for public API assessment flexibility
-      }
-    },
-    credentials: true,
-  })
-);
-
+// CORS Configuration
+app.use(cors());
 app.use(express.json());
 
 // Root API Health Check
@@ -46,9 +29,11 @@ app.get('/', (req, res) => {
   });
 });
 
-// Mount Routes
+// Explicit Seed Endpoint at /api/seed as well
+app.post('/api/seed', seedProperties);
+
+// Mount Property Routes
 app.use('/api/properties', propertyRoutes);
-app.use('/api/seed', propertyRoutes);
 
 // Error Handling Middlewares
 app.use(notFound);
